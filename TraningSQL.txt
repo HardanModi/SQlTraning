@@ -1,0 +1,156 @@
+USE [APIDEMO]
+GO
+
+/****** Object:  Table [dbo].[Employees]    Script Date: 07-10-2021 12:55:24 ******/
+USE master ;  
+GO  
+CREATE DATABASE APIDEMO 
+
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Employees](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](50) NULL,
+	[LastName] [nvarchar](50) NULL,
+	[Gender] [nvarchar](50) NULL,
+	[Salary] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+1.DDL Command
+CREATE
+ALTER
+DROP
+TRUNCATE
+
+
+1.Create
+
+USE [APIDEMO]
+GO
+
+/****** Object:  Table [dbo].[Employees]    Script Date: 07-10-2021 12:55:24 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Traning](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](50) NULL,
+	[LastName] [nvarchar](50) NULL,
+	[Gender] [nvarchar](50) NULL,
+	[Salary] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+2.Alter
+
+ALTER TABLE Traning
+ADD Email varchar(255);
+
+
+3.DROP TABLE Traning;
+
+4.TRUNCATE TABLE Traning;
+
+DML-Data Manupalation Language
+1.INSERT INTO Traning VALUES ('Depak','mahesh','male',3400);
+2.UPDATE Traning Set FirstName= 'Vivek' WHERE ID = 1;
+3.Delete from Traning
+4.Select * from Traning.
+
+Primary Key And Foriegn Key
+
+
+1.Primary Key
+CREATE TABLE Persons (
+    ID int NOT NULL,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (ID)
+);
+
+2.Foriegn Key
+CREATE TABLE Orders (
+    OrderID int NOT NULL,
+    OrderNumber int NOT NULL,
+    PersonID int,
+    PRIMARY KEY (OrderID),
+    FOREIGN KEY (PersonID) REFERENCES Persons(ID)
+);
+
+Group By
+
+SELECT COUNT(Id)as Id
+FROM Teacher
+GROUP BY TeacherName
+HAVING COUNT(Id) > 1
+
+where 
+
+select * from Teacher Where TeacherName='Hardan'
+
+Inner join
+
+SELECT Teacher.TeacherName,Student.StudentName
+FROM Teacher
+INNER JOIN Student ON Teacher.Id=Student.F_Teacher;
+
+Left Join
+
+SELECT Teacher.TeacherName,Student.StudentName
+FROM Teacher
+Left JOIN Student ON Teacher.Id=Student.F_Teacher;
+
+Right join
+
+SELECT Teacher.TeacherName,Student.StudentName
+FROM Teacher
+Right JOIN Student ON Teacher.Id=Student.F_Teacher;
+
+Full Outer join
+
+SELECT Teacher.TeacherName,Student.StudentName
+FROM Teacher
+FULL OUTER JOIN Student ON Teacher.Id=Student.F_Teacher;
+
+Self Join
+
+SELECT s1.StudentName,s2.FatherName
+FROM Student s1,Student s2
+Where s1.Id=s2.F_Teacher;
+
+Indexing
+1.Clustered Index.
+2.Non-Clustered Index.
+
+
+CREATE INDEX idx_lastname
+ON Persons (LastName);
+
+Clouse
+1. GROUP BY
+2.Oreder By
+3.Having Clouse.
+
+select Teacher.Id as TID,Teacher.TeacherName,COUNT(Student.Id) as TotalStudent from Teacher
+join Student
+on Teacher.Id=Student.F_Teacher
+Group By Student.F_Teacher,Teacher.TeacherName,Teacher.Id
+Order By Teacher.Id ASC
