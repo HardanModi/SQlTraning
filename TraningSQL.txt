@@ -154,3 +154,214 @@ join Student
 on Teacher.Id=Student.F_Teacher
 Group By Student.F_Teacher,Teacher.TeacherName,Teacher.Id
 Order By Teacher.Id ASC
+
+
+Operator In Sql
+1.Arithmatic operator-
+1.Add
+SELECT 30 + 20;
+
+2Subtract
+SELECT 30 - 20;
+
+3.Multiply
+SELECT 30 * 20;
+
+4.Divide
+SELECT 30 / 10;
+
+5.Modulo
+SELECT 17 % 5;
+
+SQL Comparison Operators
+
+1.Equal to
+SELECT * FROM Employees
+WHERE Salary = 3000;
+
+2.Greater than
+SELECT * FROM Employees
+WHERE Salary > 3000;
+
+3.Less than
+SELECT * FROM Employees
+WHERE Salary < 4000;
+
+4.Greater than or equal to
+SELECT * FROM Employees
+WHERE Salary >= 3000;
+
+5.Less than or equal to
+SELECT * FROM Employees
+WHERE Salary <= 3000;
+
+6.Not equal to
+SELECT * FROM Employees
+WHERE Salary <> 3000;
+
+
+SQL Compound Operators
+
+Operator	Description
++=	Add equals
+-=	Subtract equals
+*=	Multiply equals
+/=	Divide equals
+%=	Modulo equals
+&=	Bitwise AND equals
+^-=	Bitwise exclusive equals
+|*=	Bitwise OR equals
+
+SQL Logical Operators
+Operator	Description
+ALL	        TRUE if all of the subquery values meet the condition	
+SELECT *
+FROM Orders
+WHERE PersonID = ALL (SELECT ID FROM Persons WHERE ID = 1);
+
+
+AND	        TRUE if all the conditions separated by AND is TRUE
+SELECT * FROM Orders
+WHERE OrderID = 101 AND OrderNumber = 102;
+
+	
+ANY	        TRUE if any of the subquery values meet the condition	
+SELECT * FROM Orders
+WHERE OrderNumber > ANY (SELECT ID FROM Persons WHERE Age > 20);
+
+
+BETWEEN	        TRUE if the operand is within the range of comparisons	
+SELECT * FROM Persons
+WHERE Age BETWEEN 10 AND 60;
+
+
+EXISTS	        TRUE if the subquery returns one or more records
+SELECT * FROM Persons
+WHERE EXISTS (SELECT OrderNumber FROM Orders WHERE Persons.ID = Orders.PersonID);
+
+	
+IN	        TRUE if the operand is equal to one of a list of expressions	
+SELECT * FROM Orders
+WHERE OrderID IN (101,102); 
+  
+
+LIKE	        TRUE if the operand matches a pattern	
+SELECT * FROM Persons
+WHERE FirstName LIKE 'h%';
+
+
+NOT	        Displays a record if the condition(s) is NOT TRUE
+SELECT * FROM Persons
+WHERE FirstName not LIKE 'r%';
+
+	
+OR	        TRUE if any of the conditions separated by OR is TRUE	
+SELECT * FROM Persons
+WHERE LastName = 'vimla' OR LastName='Hardan';
+
+
+SOME	        TRUE if any of the subquery values meet the condition
+SELECT * FROM Persons
+WHERE Age > SOME (SELECT PersonID FROM Orders WHERE PersonID > 1);
+
+
+Types Of Table
+1.User table
+CREATE TABLE [dbo].[Employees](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](50) NULL,
+	[LastName] [nvarchar](50) NULL,
+	[Gender] [nvarchar](50) NULL,
+	[Salary] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+2.Local Temporary Tables
+create table #tb 
+(  
+column_name varchar(20),  
+column_no int  
+)
+
+
+
+3. Global Temporary Tables
+create table ##GlobalTemporaryTable  
+(  
+column_name varchar(20),  
+column_no int  
+)
+
+
+1.Simple Stored Procedure
+CREATE PROCEDURE SimplePro
+AS
+Begin
+SELECT * FROM Employees
+End
+
+exec SimplePro
+
+
+2.Stored Procedure With Multiple Parameters.
+Create PROCEDURE ProWithInputvar
+@firstname nvarchar(30),
+@salary nvarchar(30)
+AS
+Begin
+SELECT * FROM Employees where FirstName=@firstname or Salary=@salary
+End
+
+exec ProWithInputvar @firstname='hardan',@salary=3000
+
+3.Stored Procedure with Nullable Input Variables
+Alter PROCEDURE ProWithInputNull
+@firstname nvarchar(30)=Null,
+@salary nvarchar(30)=Null
+AS
+Begin
+IF @firstname IS NOT NULL AND @salary IS NOT NULL
+SELECT * FROM Employees where FirstName=@firstname or Salary=@salary
+ELSE IF @firstname IS NULL AND @salary IS NULL 
+SELECT * FROM Employees
+End
+
+exec ProWithInputNull @firstname='hardan',@salary=3000
+exec ProWithInputNull
+
+
+
+13.PIVOT Example
+
+SELECT [Year], Pankaj,Rahul,Sandeep FROM   
+(SELECT Name, [Year] , Sales FROM Employee )Tab1  
+PIVOT  
+(  
+SUM(Sales) FOR Name IN (Pankaj,Rahul,Sandeep)) AS Tab2  
+ORDER BY [Tab2].[Year] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
