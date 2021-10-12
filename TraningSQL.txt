@@ -500,3 +500,54 @@ WHILE (1=1)              -- DO
 FOR – By definition, this loop shall be used to run code inside the loop for the number of times you’ll exactly know before this loop starts. 
 That is true in most cases, and such a loop (if available) should be used in such a manner (to avoid complicated code), but still, you could change the number of times it executes inside the loop
 
+23.SQL Pagination:-In terms of the SQL Server, the aim of the pagination is, dividing a resultset into discrete pages with the help of the query. When the OFFSET and FETCH arguments are used in with the ORDER BY clause in a SELECT statement, it will be a pagination solution for SQL Server.
+
+OFFSET argument specifies how many rows will be skipped from the resultset of the query. In the following example, the query will skip the first 3 rows of the SampleFruits table and then return all remaining rows.
+
+SELECT *
+FROM Employees
+ORDER BY Salary
+OFFSET 0 ROWS FETCH NEXT 6 ROWS ONLY
+
+SELECT *
+FROM Employees
+ORDER BY (SELECT NULL)
+OFFSET 1 ROWS FETCH NEXT 3 ROWS ONLY
+
+
+DECLARE @PageNumber AS INT
+DECLARE @RowsOfPage AS INT
+DECLARE @MaxTablePage  AS FLOAT 
+SET @PageNumber=1
+SET @RowsOfPage=1
+SELECT @MaxTablePage = COUNT(*) FROM Employees
+SET @MaxTablePage = CEILING(@MaxTablePage/@RowsOfPage)
+WHILE @MaxTablePage >= @PageNumber
+BEGIN
+SELECT * FROM Employees
+ORDER BY Salary 
+OFFSET (@PageNumber-1)*@RowsOfPage ROWS
+FETCH NEXT @RowsOfPage ROWS ONLY
+SET @PageNumber = @PageNumber + 1
+END
+
+24.SQL Transactions
+
+Transaction Control
+The following commands are used to control transactions.
+
+COMMIT − to save the changes.
+
+ROLLBACK − to roll back the changes.
+
+SAVEPOINT − creates points within the groups of transactions in which to ROLLBACK.
+
+Transactional Control Commands
+Transactional control commands are only used with the DML Commands such as - INSERT, UPDATE and DELETE only. They cannot be used while creating tables or dropping them because these operations are automatically committed in the database.
+
+The COMMIT Command
+The COMMIT command is the transactional command used to save changes invoked by a transaction to the database.
+
+The COMMIT command is the transactional command used to save changes invoked by a transaction to the database. The COMMIT command saves all the transactions to the database since the last COMMIT or ROLLBACK command.
+
+SET TRANSACTION − Places a name on a transaction.
